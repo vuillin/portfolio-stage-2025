@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio de Stage - Vuillin Thomas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="index.html" class="btn-retour">← Retour à l'accueil</a>
+    </div>
+
+    <main style="margin-top:70px;" class="competence">
+        <h3 style="margin-top: 0;">Introduction</h3>
+        <p>Ce portfolio a pour objectif de mettre en valeur une compétence acquise lors de mon parcours informatique, en s'appuyant sur le travail réalisé lors de mon stage.</p>
+        <p>La compétence choisie est la <span class="span-red">compétence n°1 : Réaliser un développement d'application</span>.</p>    
+    </main>
+
+    <main style="margin-top:70px;" class="competence">
+
+        <h1>Compétence n°1 : Réaliser un développement d'application</h1>
+        <section>
+            <h2>I. Analyse du besoin - Travail de recherche</h2>
+
+            <h3>Double authentification (A2F) - Quelles solutions mettre en place ?</h3>
+
+            <p>
+                Dans un contexte de plus en plus sensible à la cybersécurité, <strong>Mediverif</strong> a souhaité renforcer la protection des espaces clients et médecins de son site en ajoutant une couche de sécurité supplémentaire lors de la connexion. C’est dans ce cadre qu’une <strong>authentification à deux facteurs (A2F)</strong> m’a été confiée comme une des missions centrales de mon stage.
+            </p>
+
+            <p>
+                L’objectif de l’A2F est de garantir que l’utilisateur qui se connecte est bien le propriétaire du compte, en demandant un <strong>code temporaire à usage unique</strong> en plus du mot de passe.
+            </p>
+
+            <br>
+
+            <p>
+                La mise en œuvre de cette fonctionnalité répondait à plusieurs enjeux :
+            </p>
+            <ul>
+                <li>Renforcer la sécurité d’accès aux données confidentielles</li>
+                <li>Empêcher l’accès non autorisé en cas de vol ou de fuite de mot de passe.</li>
+                <li>Améliorer la fiabilité du système sans alourdir excessivement l’expérience utilisateur.</li>
+            </ul>
+
+            <br> <br>
+
+            <div style="display: flex; gap: 50px;">
+
+                <figure>
+                    <img src="images/figure1.png" alt="Comparatif des solutions de double authentification" class="figure" style="max-width: none; margin-top:0;">
+                    <figcaption>Figure 1 : Comparatif des solutions de double authentification envisagées avant développement</figcaption>
+                </figure>
+
+                <div>
+
+                    <p>
+                        Avant toute implémentation technique, j’ai donc dû comprendre les besoins précis de l’entreprise, prendre connaissance du système existant, et <strong>me documenter</strong> sur les méthodes d’A2F les plus adaptées à un environnement web PHP. 
+                        Cette phase d’analyse a été cruciale pour poser les bases d’un système cohérent et robuste.
+                    </p>
+                    <p>
+                        Dans un premier temps, je me suis renseigné sur les différentes approches d’authentification à deux facteurs couramment utilisées dans les sites web : envoi de code par e-mail, envoi par SMS, utilisation d’applications tierces (Google Authenticator, Microsoft Authenticator), ou encore authentification biométrique.
+                        Pour cela, je me suis appuyé sur <strong>plusieurs ressources</strong> : des articles de développeurs (Auth0, OWASP), ainsi que des vidéos de vulgarisation sur YouTube présentant les avantages et les limites de chaque méthode.
+                        Toutes les méthodes sont techniquement réalisables, mais toutes ne sont pas adaptées à un contexte professionnel spécifique comme celui de Mediverif. <i style="color:rgb(153, 153, 153)">(voir figure n°1)</i>
+                    </p>
+                    <p>
+                        <strong>Plusieurs critères</strong> ont orienté ma réflexion : la simplicité pour l’utilisateur (certains sont peu à l’aise avec le numérique), le coût pour l’entreprise, la rapidité d’implémentation, et la compatibilité avec l’infrastructure PHP déjà en place. 
+                    </p>
+                    <p>
+                        J’ai également tenu compte des risques associés : spam e-mail, délais de réception des SMS, dépendance à des services tiers, ou encore complexité de mise en œuvre d’API externes.
+                        Ce travail de comparaison m’a permis de justifier un choix hybride : prioriser l’envoi de code par e-mail (gratuit, déjà en place via une librairie open-source), tout en ouvrant la possibilité d’un envoi par SMS. Cette décision équilibre sécurité, coût et expérience utilisateur, 
+                        tout en restant techniquement viable dans le cadre de Mediverif.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <main class="competence" style="margin-top: 50px;">
+
+        <section>
+            <h2>II. Conception de solution adaptée</h2>
+
+            <h3>Double authentification (A2F) – Comment concevoir une solution adaptée au contexte de l’entreprise ?</h3>
+
+            <p>Après avoir étudié les différentes possibilités de mise en œuvre d'une double authentification, il était essentiel de faire un choix et de concevoir une solution concrète, adaptée aux contraintes de Mediverif. 
+               La phase de conception m'a permis de structurer précisément le fonctionnement du système avant son développement. 
+            </p>
+
+            <p>
+                J’ai d’abord réfléchi aux différentes étapes que devait comporter le processus de double authentification, en veillant à ce qu’il reste le plus fluide 
+                et intuitif possible pour l’utilisateur. Afin de structurer ma pensée, j’ai choisi d’utiliser l’application Canva pour créer un schéma sous forme 
+                d’arborescence décrivant le fonctionnement complet du parcours A2F. Ce support visuel m’a servi de guide tout au long du développement, en me permettant 
+                de suivre chaque branche de l’arbre étape par étape. <i style="color:rgb(153, 153, 153)">(voir figure n°2)</i>
+            </p>
+
+            <p>
+                À l'aide de ce schéma, j’ai pu définir des étapes précises. Lorsqu’une session nécessite l’A2F, l’utilisateur choisit d’abord la réception du code par 
+                e-mail ou par SMS : lui offrir ce choix évite toute contrainte inutile. Si le code saisi est incorrect, expiré, ou qu’un trop grand nombre de tentatives 
+                est détecté, un nouveau code doit être généré et renvoyé ; à l’inverse, lorsque le code est valide, l’utilisateur est immédiatement redirigé vers son espace personnel. 
+                Le schéma s’est révélé utile, mais insuffisant pour démarrer le développement : j’ai également dressé, en amont, une matrice des problèmes potentiels 
+                (spam, brute-force, etc.) afin d’anticiper les correctifs plutôt que de les gérer dans l’urgence. <i style="color:rgb(153, 153, 153)">(voir figure n°3)</i>
+            </p>
+
+            <p>
+                En définitive, cette "phase de préparation" était décisive : elle a balisé le projet avant la première ligne de code. En clarifiant dès le départ les choix
+                techniques et les problèmes possibles, j'ai pu aborder le développement avec une vision claire et consacrer mon temps à l'implémentation plutôt qu'à la résolution
+                d'imprévus. Cela a permis de livrer une solution A2F plus fiable mais surtout bien adaptée aux besoins de l'entreprise. 
+            </p>
+
+
+            <div style="display:flex; gap:20px;">
+                <figure>
+                    <img style="height:370px;" src="images/figure2.png" alt="Déroulement d'une connexion client ou médecin" class="figure">
+                    <figcaption>Figure 2 : Schéma du déroulement d'une connexion client ou médecin</figcaption>
+                </figure>
+
+                <figure>
+                    <img style="height:370px;" src="images/figure3.png" alt="Matrice des risques principaux" class="figure">
+                    <figcaption>Figure 3 : Matrice des risques principaux</figcaption>
+                </figure>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <main class="competence" style="margin-top: 50px;">
+
+        <section>
+            <h2>III. Réalisation technique - Développement</h2>
+
+            <div style="display: flex; gap:50px">
+
+                <figure>
+                    <img src="images/pseudocode.png" alt="Pseudo-code" class="figure" style="height:700px; width:auto; max-width:none">
+                    <figcaption>Figure 6 : Pseudo-code écrit avant le développement</figcaption>
+                </figure>
+
+                <div>
+
+                    <h3>Réinitialisation du mot de passe – Comment repenser une fonctionnalité pour qu’elle soit plus intuitive ?</h3>
+
+                    <p>
+                        À mon arrivée dans l'entreprise, un client ou un médecin pouvait réinitialiser son mot de passe en cliquant sur le bouton "Mot de passe oublié".
+                        Le système, mis en place par un ancien stagiaire, fonctionnait via l’envoi d’un code par e-mail que l’utilisateur devait ensuite saisir manuellement. 
+                        Soucieux de rendre le processus plus simple et intuitif, Mediverif a souhaité remplacer ce code par un lien sécurisé redirigeant directement vers la page 
+                        de changement de mot de passe. 
+                    </p>
+
+                    <p> 
+                        J’ai d’abord sous-estimé cette tâche, qui paraissait simple à première vue, mais s’est révélée bien plus complexe. 
+                        Il ne s’agissait pas seulement de modifier l’envoi du code, mais de repenser toute la logique du parcours de réinitialisation : 
+                        validation des liens, sécurisation du token, durée de validité, gestion des erreurs, et mise à jour finale du mot de passe. 
+                        J’ai donc pris le temps de poser à plat le fonctionnement idéal avant d’écrire la moindre ligne de code. <i style="color:rgb(153, 153, 153)">(voir figure n°6)</i>
+                    </p>
+
+                    <p> 
+                        Une fois la solution validée, j’ai mis en place un système basé sur un lien unique contenant un identifiant sécurisé (appelé token), 
+                        envoyé à l’utilisateur par e-mail. Ce lien mène directement à une page de changement de mot de passe, sans avoir à recopier quoi que ce soit. 
+                        Le lien n’est utilisable qu’une seule fois, et expire automatiquement au bout d’un délai défini. Cela permet de simplifier le parcours tout en 
+                        renforçant la sécurité globale du processus.
+                    </p>
+
+                    <p>
+                        Ce travail m’a rapidement montré que même une fonctionnalité simple en apparence pouvait soulever de nombreuses questions. 
+                        Je me suis interrogé sur les cas d’usage réels : que se passe-t-il si un utilisateur fait plusieurs demandes ? Si le lien expire ? 
+                        S’il ne comprend pas le message d’erreur ? Ces réflexions m’ont forcé à penser au-delà du code, et à anticiper les situations concrètes.
+                    </p>
+
+                    <p>
+                        Avec le recul, certaines améliorations sont encore possibles. 
+                        Par exemple, rendre la vérification de la complexité du mot de passe plus visuelle, ou afficher un compte à rebours lorsque 
+                        le lien est sur le point d’expirer.
+                    </p>
+
+                    <p>
+                        Enfin et surtout, cette tâche m’a amené à me poser des questions auxquelles je ne m’attendais pas forcément en travaillant dans l’informatique : 
+                        comment formuler l’e-mail envoyé à l’utilisateur ? Comment être clair, compréhensible et rassurant, même pour des profils peu à l’aise avec le numérique ? 
+                        Ce sont des aspects que je n’aurais pas imaginé devoir gérer, mais qui m’ont appris à mieux penser pour l’utilisateur final.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <main class="competence" style="margin-top: 50px;">
+
+        <section>
+            <h2>IV. Maintenance - Évolution</h2>
+
+            <h3>Refonte graphique – Comment faire évoluer une interface existante sans tout reconstruire ?</h3>
+
+            <p>
+                Après avoir développé de nouvelles fonctionnalités, j’ai aussi été amené à intervenir sur des éléments déjà en place. 
+                Ici, il ne s’agissait pas de corriger des bugs, mais d’améliorer l’interface et l’ergonomie du site en respectant la structure existante. 
+                L’objectif était double : moderniser l’aspect visuel tout en facilitant la navigation pour les utilisateurs.
+            </p>
+
+            <p>
+                L’exemple le plus simple est sans doute le remaniement des boutons sur l’ensemble du site public. 
+                Les anciens boutons manquaient de contraste, n’étaient pas assez visibles sur mobile, et n’étaient pas toujours cohérents en termes de taille ou de style. 
+                J’ai donc défini un nouveau style graphique plus lisible, plus accessible et plus harmonisé. Ce changement a été appliqué progressivement sur les différentes 
+                pages, sans casser l’existant.
+            </p>
+            
+            <br>
+
+            <p>
+                Mais c’est surtout sur la page de profil médecin que l’évolution a été la plus significative. La version initiale manquait d’organisation : 
+                les champs n’étaient pas regroupés logiquement, certaines informations étaient peu visibles, et l’interface manquait d’aération. 
+                J’ai entièrement réorganisé la structure de cette page en gardant les mêmes données, mais en les présentant de manière plus claire et intuitive. <i style="color:rgb(153, 153, 153)">(voir figure n°7 et 8)</i> <br>
+                Des messages d’alerte ont également été ajoutés sur certaines pages, pour aider les clients à s'y retrouver en cas de problème.
+            </p>
+
+            <p>
+                D'une certaine manière, ces modifications m’ont appris à intervenir dans un code existant de manière propre et mesurée, sans bouleverser la logique de départ.
+                Ce type de maintenance demande de la rigueur : chaque changement graphique peut impacter d’autres éléments, et il faut toujours penser à la compatibilité, 
+                à la lisibilité et à la cohérence globale du site. C’est également un très bon exercice pour prendre en compte les retours utilisateurs et 
+                proposer des évolutions qui ont un impact direct sur l’expérience finale.
+            </p>
+
+            <div style="display:flex; gap:20px;">
+                <figure>
+                    <img style="height:370px;" src="images/profilavant.png" alt="Ancienne interface d'un profil médecin" class="figure">
+                    <figcaption>Figure 7 : Ancienne interface d'un profil médecin</figcaption>
+                </figure>
+
+                <figure>
+                    <img style="height:370px;" src="images/profilapres.png" alt="Nouvelle interface d'un profil médecin" class="figure">
+                    <figcaption>Figure 8 : Nouvelle interface d'un profil médecin</figcaption>
+                </figure>
+            </div>
+
+        </section>
+
+    </main>
+
+
+</body>
+
+</html>
